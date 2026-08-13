@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Flow</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <h1>TaskFlow</h1>
+        <h3>Plan your work. Make progress.</h3>
+    </header>
+
+    <section>
+        <div class="add-task">
+            <h2>Add a new task</h2>
+            <form id="add-new-task">
+                <div class="form-container">
+                    <div class="title-section">
+                        <label for="title-input">Task title</label>
+                        <input type="text" id="title-input" placeholder="Enter task title" required>
+                    </div>
+                    <div class="selectors-container">
+                        <div class="status-section">
+                            <label for="status-input">Status</label>
+                            <select  id="status-input" required>
+                                <option value="notStarted">Not Started</option>
+                                <option value="inProgress">In Progress</option>
+                                <option value="completed">Completed</option>
+                            </select>
+                        </div>
+                        <div class="priority-section">
+                            <label for="priority-input">Priority</label>
+                            <select id="priority-input" required>
+                                <option value="low">Low</option>
+                                <option value="medium">Medium</option>
+                                <option value="high">High</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="date-section">
+                        <label for="date-input">Due date</label>
+                        <input type="date"  id="date-input" autocomplete="off" required>
+                    </div>
+                    <div class="submit-section">
+                        <button type="submit" id="submit-button">
+                            <span>Add Task</span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <section>
+        <div class="task-filter-container">
+                <label for="task-view">View tasks by:</label>
+                <select id="task-view">
+                    <option value="notStarted">Not Started</option>
+                    <option value="inProgress">In Progress</option>
+                    <option value="completed">Completed</option>
+                    <option value="all">All Tasks</option>
+                </select>
+        </div>
+    </section>
+
+    <section class="tasks-section">
+        <h2 class="mobile-task-heading">Not Started</h2>
+        <div class="your-tasks" id="your-tasks">
+            <div class="your-tasks-not-started active" id="tasks-not-started">
+                <h2 class="desktop-task-heading">Not Started</h2>
+            </div>
+            <div class="your-tasks-in-progress" id="tasks-in-progress">
+                <h2 class="desktop-task-heading">In Progress</h2>
+            </div>
+            <div class="your-tasks-completed" id="tasks-completed">
+                <h2 class="desktop-task-heading">Completed</h2>
+            </div>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+</html>
