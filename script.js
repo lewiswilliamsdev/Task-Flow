@@ -137,11 +137,11 @@ yourTasks.addEventListener("click", function (event) {
         return;
     }
 
-    const taskCard = clickedEditButton.closest(".edit-button");
-    const taskId = Number(task.dateset.id);
+    const taskCard = clickedEditButton.closest(".task-card");
+    const taskId = Number(taskCard.dataset.id);
 
-    const taskToEdit = tasks.find(function, (task) {
-        return task.id === taskId
+    const taskToEdit = tasks.find(function (task) {
+        return task.id === taskId;
     })
 
     if (!taskToEdit) {
@@ -155,7 +155,7 @@ yourTasks.addEventListener("click", function (event) {
 
     editingTaskId = taskId;
 
-    submitButtonText.textContent = "Update Application"
+    submitButtonText.textContent = "Update Application";
 
-    submitButton.classList.add("edit-state")
+    submitButton.classList.add("edit-state");
 }) 

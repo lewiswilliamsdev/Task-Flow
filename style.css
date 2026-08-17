@@ -296,6 +296,10 @@ header h3 {
     border-radius: 0.2rem;
 }
 
+#submit-button.edit-state {
+    background-color: var(--color-edit);
+}
+
 /* Desktop layout */
 
 @media (min-width: 1024px) {
