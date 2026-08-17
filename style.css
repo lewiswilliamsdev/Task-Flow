@@ -208,7 +208,7 @@ header h3 {
 
     width: 85%;
 
-    gap: 1rem;
+    margin-top: 1rem;
     padding: 1rem;
 
     border: 1.8px solid var(--color-border);
@@ -228,17 +228,35 @@ header h3 {
     text-transform: capitalize;
 }
 
-    .task-priority.low {
+.task-priority.low,
+.task-priority.medium,
+.task-priority.high {
     display: flex;
     justify-content: center;
     align-items: center;
+
+    margin-top: 0.8rem;
+
     border: 1px transparent;
     border-radius: 1rem;
-    width: 3.2rem;
-    height: 1.8rem;
+
+    width: 4.5rem;
+    height: 2rem;
+
     color: var(--color-primary-text);
-    background-color: var(--color-priority-low);
     text-transform: capitalize;
+}
+
+.task-priority.low {
+    background-color: var(--color-priority-low);
+}
+
+.task-priority.medium {
+    background-color: var(--color-priority-medium);
+}
+
+.task-priority.high {
+    background-color: var(--color-priority-high);
 }
 
 .task-date {
@@ -260,9 +278,27 @@ header h3 {
     text-transform: capitalize;
     }
 
+.task-additional-information {
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    gap: 1rem;
+}
+
+.edit-button {
+    background: none;
+
+    padding: 0.6rem;
+
+    border: 1.5px solid var(--color-border);
+    border-radius: 0.2rem;
+}
+
 /* Desktop layout */
 
-@media (min-width: 768px) {
+@media (min-width: 1024px) {
     .task-filter-container,
     .mobile-task-heading {
         display: none;
@@ -285,6 +321,7 @@ header h3 {
         gap: 0;
     }
 
+
     .form-container {
         display: flex;
         flex-direction: row;
@@ -298,13 +335,13 @@ header h3 {
     }
 
     .title-section input {
-        width: 25rem;
+        width: 15rem;
         height: 3rem;
     }
 
     .form-container select,
     .date-section input {
-        width: 15rem;
+        width: 8rem;
         height: 3rem;
     }
 
@@ -408,7 +445,7 @@ header h3 {
 
         width: 100%;
 
-        gap: 1rem;
+        margin-bottom: 1rem;
 
         padding: 1rem;
 

@@ -8,8 +8,22 @@ const titleInput = document.getElementById("title-input")
 const statusInput = document.getElementById("status-input")
 const priorityInput = document.getElementById("priority-input")
 const dateInput = document.getElementById("date-input")
+const submitButton = document.getElementById("submit-button")
+const submitButtonText = document.querySelector("#submit-button span")
 
 let tasks = []
+
+let editingTaskId = null
+
+function renderTasks() {
+    tasksNotStarted.innerHTML = "";
+    tasksInProgress.innerHTML = "";
+    tasksCompleted.innerHTML = "";
+
+    tasks.forEach(function (task) {
+        renderTask(task);
+    })
+}
 
 taskForm.addEventListener("submit", function(event) {
     event.preventDefault();
@@ -26,15 +40,28 @@ taskForm.addEventListener("submit", function(event) {
         date: dateValue
     }
 
-    const task = {
+    if (editingTaskId === null) {
+        const task = {
         id: Date.now(),
         ...taskData
+    };
+
+        tasks.push(task);
+    } else {
+        const taskToUpdate = tasks.find(function (task) {
+            return task.id === editingTaskId
+        });
+
+        if (taskToUpdate) {
+            Object.assign(taskToUpdate, taskData)
+        }
+
+        editingTaskId = null;
+        submitButtonText.textContent = "Add Application"
+        submitButton.classList.remove("edit-state")
     }
 
-    tasks.push(task);
-    console.log(task);
-
-    renderTask(task);
+    renderTasks();
     taskForm.reset();
 });
 
@@ -53,6 +80,9 @@ function renderTask(task) {
     taskPriority.className = (`task-priority ${task.priority}`);
     taskPriority.textContent = task.priority;
 
+    const taskAdditionalInformation = document.createElement("div");
+    taskAdditionalInformation.className = ("task-additional-information");
+
     const taskDateContainer = document.createElement("div");
     taskDateContainer.className = ("task-date-container");
 
@@ -63,6 +93,12 @@ function renderTask(task) {
     const taskDateIcon = document.createElement("i");
     taskDateIcon.className = ("fa-regular fa-calendar");
 
+    const editButton = document.createElement("button");
+    editButton.className = ("edit-button");
+
+    const editButtonIcon = document.createElement("i");
+    editButtonIcon.className = ("fa-solid fa-pencil");
+
     taskCard.appendChild(taskTitle);
 
     taskInformationContainer.appendChild(taskPriority);
@@ -71,7 +107,13 @@ function renderTask(task) {
 
     taskDateContainer.appendChild(taskDate);
 
-    taskInformationContainer.appendChild(taskDateContainer);
+    taskAdditionalInformation.appendChild(taskDateContainer);
+
+    editButton.appendChild(editButtonIcon);
+
+    taskAdditionalInformation.appendChild(editButton);
+
+    taskInformationContainer.appendChild(taskAdditionalInformation);
 
     taskCard.appendChild(taskInformationContainer);
 
@@ -87,3 +129,33 @@ function renderTask(task) {
         tasksCompleted.appendChild(taskCard)
     }
 }
+
+yourTasks.addEventListener("click", function (event) {
+    const clickedEditButton = event.target.closest(".edit-button");
+
+    if (!clickedEditButton) {
+        return;
+    }
+
+    const taskCard = clickedEditButton.closest(".edit-button");
+    const taskId = Number(task.dateset.id);
+
+    const taskToEdit = tasks.find(function, (task) {
+        return task.id === taskId
+    })
+
+    if (!taskToEdit) {
+        return;
+    }
+
+    titleInput.value = taskToEdit.title;
+    statusInput.value = taskToEdit.status;
+    priorityInput.value = taskToEdit.priority;
+    dateInput.value = taskToEdit.date;
+
+    editingTaskId = taskId;
+
+    submitButtonText.textContent = "Update Application"
+
+    submitButton.classList.add("edit-state")
+}) 
