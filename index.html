@@ -67,16 +67,31 @@
     </section>
 
     <section class="tasks-section">
-        <h2 class="mobile-task-heading">Not Started</h2>
+        <div class="mobile-task-container">
+            <h2 class="mobile-task-heading">Not Started</h2>
+            <span id="task-counter-mobile"></span>
+        </div>
         <div class="your-tasks" id="your-tasks">
             <div class="your-tasks-not-started active" id="tasks-not-started">
-                <h2 class="desktop-task-heading">Not Started</h2>
+                <div class="not-started-heading">
+                    <h2 class="desktop-task-heading">Not Started</h2>
+                    <span id="tasks-not-started-summary"></span>
+                </div>
+                <div class="not-started-cards" id="not-started-cards"></div>
             </div>
             <div class="your-tasks-in-progress" id="tasks-in-progress">
-                <h2 class="desktop-task-heading">In Progress</h2>
+                <div class="in-progress-heading">
+                    <h2 class="desktop-task-heading">In Progress</h2>
+                    <span id="tasks-in-progress-summary"></span>
+                </div>
+                <div class="in-progress-cards" id="in-progress-cards"></div>
             </div>
             <div class="your-tasks-completed" id="tasks-completed">
-                <h2 class="desktop-task-heading">Completed</h2>
+                <div class="completed-heading">
+                    <h2 class="desktop-task-heading">Completed</h2>
+                    <span id="tasks-completed-summary"></span>
+                </div>
+                <div class="completed-cards" id="completed-cards"></div>
             </div>
         </div>
     </section>

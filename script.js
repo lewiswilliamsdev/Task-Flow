@@ -1,15 +1,19 @@
 const taskForm = document.getElementById("add-new-task")
 const taskView = document.getElementById("task-view")
 const yourTasks = document.getElementById("your-tasks")
-const tasksNotStarted = document.getElementById("tasks-not-started")
-const tasksInProgress = document.getElementById("tasks-in-progress")
-const tasksCompleted = document.getElementById("tasks-completed")
+const tasksNotStarted = document.getElementById("not-started-cards")
+const tasksInProgress = document.getElementById("in-progress-cards")
+const tasksCompleted = document.getElementById("completed-cards")
 const titleInput = document.getElementById("title-input")
 const statusInput = document.getElementById("status-input")
 const priorityInput = document.getElementById("priority-input")
 const dateInput = document.getElementById("date-input")
 const submitButton = document.getElementById("submit-button")
 const submitButtonText = document.querySelector("#submit-button span")
+const taskCounterMobile = document.getElementById("task-counter-mobile")
+const tasksNotStartedSummary = document.getElementById("tasks-not-started-summary")
+const tasksInProgressSummary = document.getElementById("tasks-in-progress-summary")
+const tasksCompletedSummary = document.getElementById("tasks-completed-summary")
 
 let tasks = []
 
@@ -23,6 +27,26 @@ function renderTasks() {
     tasks.forEach(function (task) {
         renderTask(task);
     })
+}
+
+function updateTaskCounter() {
+    const notStartedNumber = tasks.filter(function (task) {
+        return task.status === "notStarted"
+    })
+
+    tasksNotStartedSummary.textContent = notStartedNumber.length;
+
+    const inProgressNumber = tasks.filter(function (task) {
+        return task.status === "inProgress"
+    })
+
+    tasksInProgressSummary.textContent = inProgressNumber.length;
+
+    const completedNumber = tasks.filter(function (task) {
+        return task.status === "completed"
+    })
+
+    tasksCompletedSummary.textContent = completedNumber.length;
 }
 
 taskForm.addEventListener("submit", function(event) {
@@ -63,6 +87,7 @@ taskForm.addEventListener("submit", function(event) {
 
     renderTasks();
     taskForm.reset();
+    updateTaskCounter();
 });
 
 function renderTask(task) {
@@ -99,6 +124,12 @@ function renderTask(task) {
     const editButtonIcon = document.createElement("i");
     editButtonIcon.className = ("fa-solid fa-pencil");
 
+    const deleteButton = document.createElement("button");
+    deleteButton.className = ("delete-button");
+
+    const deleteButtonIcon = document.createElement("i");
+    deleteButtonIcon.className = ("fa-solid fa-trash");
+
     taskCard.appendChild(taskTitle);
 
     taskInformationContainer.appendChild(taskPriority);
@@ -112,6 +143,10 @@ function renderTask(task) {
     editButton.appendChild(editButtonIcon);
 
     taskAdditionalInformation.appendChild(editButton);
+
+    deleteButton.appendChild(deleteButtonIcon);
+
+    taskAdditionalInformation.appendChild(deleteButton);
 
     taskInformationContainer.appendChild(taskAdditionalInformation);
 
@@ -158,6 +193,31 @@ yourTasks.addEventListener("click", function (event) {
     submitButtonText.textContent = "Update Application";
 
     submitButton.classList.add("edit-state");
+
+    renderTasks();
+    updateTaskCounter();
 }) 
 
-// comment // 
+yourTasks.addEventListener("click", function (event) {
+    const taskToDelete = event.target.closest(".delete-button");
+
+    if (!taskToDelete) {
+        return;
+    }
+
+    const taskCard = taskToDelete.closest(".task-card");
+    const taskId = Number(taskCard.dataset.id);
+
+    tasks = tasks.filter(function (task) {
+        return task.id !== taskId;
+    });
+
+    renderTasks();
+    updateTaskCounter();
+})
+
+// create status filter for mobile //
+
+// filter tasks by priority from highest to lowest //
+
+
