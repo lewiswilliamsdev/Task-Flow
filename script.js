@@ -14,17 +14,22 @@ const taskCounterMobile = document.getElementById("task-counter-mobile")
 const tasksNotStartedSummary = document.getElementById("tasks-not-started-summary")
 const tasksInProgressSummary = document.getElementById("tasks-in-progress-summary")
 const tasksCompletedSummary = document.getElementById("tasks-completed-summary")
+const selectedFilter = document.getElementById("task-view")
+const notStartedContainer = document.getElementById("tasks-not-started")
+const inProgressContainer = document.getElementById("tasks-in-progress")
+const completedContainer = document.getElementById("tasks-completed")
 
 let tasks = []
 
 let editingTaskId = null
 
-function renderTasks() {
+function renderTasks(tasksToRender) {
     tasksNotStarted.innerHTML = "";
     tasksInProgress.innerHTML = "";
     tasksCompleted.innerHTML = "";
 
-    tasks.forEach(function (task) {
+    tasksToRender.forEach(function (task) {
+        console.log("Rendering:", task.title, task.status);
         renderTask(task);
     })
 }
@@ -48,6 +53,42 @@ function updateTaskCounter() {
 
     tasksCompletedSummary.textContent = completedNumber.length;
 }
+
+function filterTasks() {
+    const selectedStatus = selectedFilter.value;
+
+    notStartedContainer.classList.remove("active");
+    inProgressContainer.classList.remove("active");
+    completedContainer.classList.remove("active")
+
+    if (selectedStatus === "all") {
+        notStartedContainer.classList.add("active");
+        inProgressContainer.classList.add("active");
+        completedContainer.classList.add("active");
+        renderTasks(tasks);
+        return;
+    } else if (selectedStatus === "notStarted") {
+        notStartedContainer.classList.add("active");
+        renderTasks(tasks);
+        return;
+    } else if (selectedStatus === "inProgress") {
+        inProgressContainer.classList.add("active");
+        renderTasks(tasks);
+        return;
+    } else if (selectedStatus === "completed") {
+        completedContainer.classList.add("active");
+        renderTasks(tasks);
+        return;
+    }
+
+    const filteredTasks = tasks.filter(function (task) {
+        return task.status === selectedStatus;
+    })
+}
+
+selectedFilter.addEventListener("change", function() {
+    filterTasks();
+})
 
 taskForm.addEventListener("submit", function(event) {
     event.preventDefault();
@@ -85,7 +126,7 @@ taskForm.addEventListener("submit", function(event) {
         submitButton.classList.remove("edit-state")
     }
 
-    renderTasks();
+    filterTasks() 
     taskForm.reset();
     updateTaskCounter();
 });
@@ -194,7 +235,7 @@ yourTasks.addEventListener("click", function (event) {
 
     submitButton.classList.add("edit-state");
 
-    renderTasks();
+    filterTasks() 
     updateTaskCounter();
 }) 
 
@@ -212,9 +253,11 @@ yourTasks.addEventListener("click", function (event) {
         return task.id !== taskId;
     });
 
-    renderTasks();
+    filterTasks() 
     updateTaskCounter();
 })
+
+
 
 // create status filter for mobile //
 

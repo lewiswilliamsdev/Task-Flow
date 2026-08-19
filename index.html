@@ -56,23 +56,25 @@
 
     <section>
         <div class="task-filter-container">
+            <form id="filter">
                 <label for="task-view">View tasks by:</label>
                 <select id="task-view">
+                    <option value="all">All Tasks</option>
                     <option value="notStarted">Not Started</option>
                     <option value="inProgress">In Progress</option>
                     <option value="completed">Completed</option>
-                    <option value="all">All Tasks</option>
                 </select>
+            </form>
         </div>
     </section>
 
     <section class="tasks-section">
         <div class="mobile-task-container">
-            <h2 class="mobile-task-heading">Not Started</h2>
+            <h2 class="mobile-task-heading">All Tasks</h2>
             <span id="task-counter-mobile"></span>
         </div>
         <div class="your-tasks" id="your-tasks">
-            <div class="your-tasks-not-started active" id="tasks-not-started">
+            <div class="your-tasks-not-started" id="tasks-not-started">
                 <div class="not-started-heading">
                     <h2 class="desktop-task-heading">Not Started</h2>
                     <span id="tasks-not-started-summary"></span>
