@@ -18,22 +18,43 @@ const selectedFilter = document.getElementById("task-view")
 const notStartedContainer = document.getElementById("tasks-not-started")
 const inProgressContainer = document.getElementById("tasks-in-progress")
 const completedContainer = document.getElementById("tasks-completed")
+const mobileTaskHeading = document.getElementById("mobile-task-heading")
 
-let tasks = []
+let tasks = [];
 
-let editingTaskId = null
+const savedTasks = localStorage.getItem("tasks");
 
-function renderTasks(tasksToRender) {
+if (savedTasks) {
+    tasks = JSON.parse(savedTasks);
+}
+
+let editingTaskId = null;
+
+function sortTasksByPriority() {
+    const priorityRank = {
+        high: 3,
+        medium: 2,
+        low: 1
+    };
+
+    const sortedTasks = [...tasks];
+
+    sortedTasks.sort(function(taskA, taskB) {
+        return priorityRank[taskB.priority] - priorityRank[taskA.priority];
+    });
+
+    return sortedTasks;
+}
+
+function renderTasks(list) {
     tasksNotStarted.innerHTML = "";
     tasksInProgress.innerHTML = "";
     tasksCompleted.innerHTML = "";
 
-    tasksToRender.forEach(function (task) {
-        console.log("Rendering:", task.title, task.status);
+    list.forEach(function(task) {
         renderTask(task);
-    })
+    });
 }
-
 function updateTaskCounter() {
     const notStartedNumber = tasks.filter(function (task) {
         return task.status === "notStarted"
@@ -65,28 +86,29 @@ function filterTasks() {
         notStartedContainer.classList.add("active");
         inProgressContainer.classList.add("active");
         completedContainer.classList.add("active");
-        renderTasks(tasks);
-        return;
     } else if (selectedStatus === "notStarted") {
         notStartedContainer.classList.add("active");
-        renderTasks(tasks);
-        return;
     } else if (selectedStatus === "inProgress") {
         inProgressContainer.classList.add("active");
-        renderTasks(tasks);
-        return;
     } else if (selectedStatus === "completed") {
         completedContainer.classList.add("active");
-        renderTasks(tasks);
-        return;
     }
 
-    const filteredTasks = tasks.filter(function (task) {
-        return task.status === selectedStatus;
-    })
+    const sortedTasks = sortTasksByPriority();
+
+    renderTasks(sortedTasks);
+}
+
+function saveTasks() {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
 }
 
 selectedFilter.addEventListener("change", function() {
+    const selectedOptionText = 
+    selectedFilter.selectedOptions[0].textContent;
+
+    mobileTaskHeading.textContent = selectedOptionText;
+
     filterTasks();
 })
 
@@ -126,9 +148,10 @@ taskForm.addEventListener("submit", function(event) {
         submitButton.classList.remove("edit-state")
     }
 
-    filterTasks() 
-    taskForm.reset();
+    saveTasks();
+    filterTasks(); 
     updateTaskCounter();
+    taskForm.reset();
 });
 
 function renderTask(task) {
@@ -244,7 +267,7 @@ yourTasks.addEventListener("click", function (event) {
 
     if (!taskToDelete) {
         return;
-    }
+    };
 
     const taskCard = taskToDelete.closest(".task-card");
     const taskId = Number(taskCard.dataset.id);
@@ -253,13 +276,13 @@ yourTasks.addEventListener("click", function (event) {
         return task.id !== taskId;
     });
 
-    filterTasks() 
+    saveTasks();
+    filterTasks() ;
     updateTaskCounter();
 })
 
-
-
-// create status filter for mobile //
+filterTasks();
+updateTaskCounter();
 
 // filter tasks by priority from highest to lowest //
 
