@@ -19,6 +19,7 @@ const notStartedContainer = document.getElementById("tasks-not-started")
 const inProgressContainer = document.getElementById("tasks-in-progress")
 const completedContainer = document.getElementById("tasks-completed")
 const mobileTaskHeading = document.getElementById("mobile-task-heading")
+const mobileTaskHeadingCounter = document.getElementById("task-counter-mobile")
 
 let tasks = [];
 
@@ -56,6 +57,8 @@ function renderTasks(list) {
     });
 }
 function updateTaskCounter() {
+    const allTasksNumber = tasks.length
+
     const notStartedNumber = tasks.filter(function (task) {
         return task.status === "notStarted"
     })
@@ -73,6 +76,18 @@ function updateTaskCounter() {
     })
 
     tasksCompletedSummary.textContent = completedNumber.length;
+
+    if (selectedFilter.value === "all") {
+        mobileTaskHeadingCounter.textContent = allTasksNumber;
+    } else if (selectedFilter.value === "notStarted") {
+        mobileTaskHeadingCounter.textContent = notStartedNumber.length;
+    } else if (selectedFilter.value === "inProgress") {
+        mobileTaskHeadingCounter.textContent = inProgressNumber.length;
+    } else if (selectedFilter.value === "completed") {
+        mobileTaskHeadingCounter.textContent = completedNumber.length;
+    }
+
+    console.log (mobileTaskHeadingCounter.textContent)
 }
 
 function filterTasks() {
@@ -110,6 +125,7 @@ selectedFilter.addEventListener("change", function() {
     mobileTaskHeading.textContent = selectedOptionText;
 
     filterTasks();
+    updateTaskCounter();
 })
 
 taskForm.addEventListener("submit", function(event) {

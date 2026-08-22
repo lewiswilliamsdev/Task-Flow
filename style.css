@@ -178,6 +178,15 @@ header h3 {
     border-radius: 0.5rem;
 }
 
+.mobile-task-container {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 2rem;
+}
+
 .mobile-task-heading {
     display: flex;
 
@@ -186,6 +195,24 @@ header h3 {
 
     margin-top: 1rem;
     margin-bottom: 1rem;
+}
+
+#task-counter-mobile {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    font-size: 1.4rem;
+
+    width: 2.4rem;
+    height: 1.8rem;
+
+    background-color: var(--color-count-background);
+    color: var(--color-count-text);
+
+    border: 1px transparent;
+    border-radius: 0.8rem;
 }
 
 .desktop-task-heading {
